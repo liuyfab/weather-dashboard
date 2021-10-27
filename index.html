@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Primarily using Bootstrap for our CSS framework -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
     <link rel="stylesheet" href="./assets/style.css" />
@@ -14,13 +15,14 @@
         <h1>Weather Dashboard</h1>
     </header>
     
-    <!-- display everyting as card elements -->
+    <!-- Bootstrip Grid for laying out the CSS elements. I am choosing to primarily display everyting as card elements -->
     <div class="container-fluid">
         <div class = "row">
             <div class="col-12 col-lg-3">
                 <div class="card">
                     <h3 class="card-header">Search for a City</h3>
                     <form id="search-form" class="card-body">
+                        <label class="form-label" for="city"></label>
                         <input name="city" id="search-city" type="text" autofocus="true" class="form-input" />
                         <button type="submit" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
                     </form>
@@ -31,9 +33,7 @@
                     <div class="card-header">
                         <h6>Search History</h6>
                     </div>
-                    <div class="card-body" id="history">
-                    
-                    </div>
+                    <div class="card-body" id="history"></div>
                 </div>
 
             </div>
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 
-                <!-- display the 5-day forecast  -->
+                <!-- the cards that will be used to display the 5-day forecast, it is one larger card to group them together with a nested card to display each day's info -->
                 <div class = "card" id="forecast-container">
                     <div class="card-header">
                         <h3 class="card-title">5-Day Forecast</h3>
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <!-- moment.js to make working with the dates easier -->
+    <!-- I'm also including moment.js to make working with the dates easier -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/script.js"></script>
 </body>

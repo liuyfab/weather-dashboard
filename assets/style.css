@@ -38,7 +38,7 @@
 }
 
 .form-input {
-    border-color: lightslategray;
+    border-color: rgb(130, 168, 206);
     border-style: solid;
     border-width: thin;
 
@@ -48,7 +48,7 @@
 }
 
 .forecast-card {
-    background-color:  rgb(127, 159, 190);
+    background-color:  rgb(126, 166, 206);
 }
 
 #forecast-container {
