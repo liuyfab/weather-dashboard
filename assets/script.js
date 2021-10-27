@@ -11,11 +11,10 @@ var currentWeather = {
     icon: ""
 }
 
-//array used to store the forecast data, each day in the forecast will be stored as
-//an object within the array.
+//array used to store the forecast data.
 var forecast = [];
 
-//array for storing the previously searched cities
+//array for storing the previously searched cities.
 var searchHistory = [];
 
 //the OpenWeather api key used for this project
@@ -41,10 +40,8 @@ var curStatsEl = document.querySelector("#current-stats");
 
 
 
-//getWeather is the function that makes the api calls to OpenWeather. The city parameter is passed to it from searchFormHandler.
-//The initial api call returns most of the needed data. I use moment.js to get and format the current date. I also get the latitude
-//and longitude from the data returned by the primary api and use that to form the second api call which returns the UV index.
-//Once the second call is done, it calls displayWeather to put all of the info up on the page.
+//getWeather is the function that makes the api calls to OpenWeather. 
+
 var getWeather = function (city){
 
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&units=imperial&appid=" + apiKey;
