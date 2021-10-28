@@ -247,6 +247,10 @@ var formSubmitHandler = function(event) {
     }
 }
 
+var clearForecast = function () {
+    forecast = [];
+    forecastEl.innerHTML = "";
+}
 
 //this function allows the user to click on a city listed in the search history and search for that city
 var historyClickHandler = function (event) {
@@ -258,10 +262,18 @@ var historyClickHandler = function (event) {
     }
 }
 
+var clearData = function () {
+    console.log("inside clearData");
+    curStatsEl.style.display = "none";
+    forecastContEl.style.display = "none";
+    curDateEl.innerHTML = "";
+    curIconEl.innerHTML = "";
+}
+
 //console.log(currentWeather);
 loadHistory();
 
 //event listener for when the user clicks the submit button in the form
 formEl.addEventListener("submit", formSubmitHandler);
-clearBtnEl.addEventListener("click", clearHistory);
+
 historyEl.addEventListener("click", historyClickHandler);
