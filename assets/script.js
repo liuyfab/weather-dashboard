@@ -32,7 +32,6 @@ var searchInputEl = document.querySelector("#search-city");
 var formEl = document.querySelector("#search-form");
 var historyEl = document.querySelector("#history");
 var clearBtnEl = document.querySelector("#clear-history");
-var uvAlertEl = document.querySelector("#uv-alert");
 var forecastEl = document.querySelector("#forecast-body");
 var resultsContEl = document.querySelector("#results-container");
 var forecastContEl = document.querySelector("#forecast-container");
@@ -92,9 +91,6 @@ var getWeather = function (city){
     })
 }
 
-//getForecast takes the city the user searched for (from getWeather) and makes an api call to get the 5-day forecast
-//it then iterates through the array of data returned from OpenWeather and pulls out the relevant data from the NOON
-//forecast, ignoring any data returned for the same day as today. It creates an object for each day and then pushes
 //that object to the forecast array so the data can be easily retrieved later on.
 var getForecast = function (city) {
     //console.log("inside getForecast");
@@ -106,13 +102,11 @@ var getForecast = function (city) {
                 //console.log(data);
 
                 //get today and format it so it can be easily compared with the dates returned by the api call
-                //I want to ignore any data with a date that matches today.
                 var today = moment().format("YYYY-MM-DD");
                 //console.log(today);
                 for (var i=0; i<data.list.length; i++){
     
                     //OpenWeather returns a value called dt_txt which is the date and the time separated by a " ".
-                    //I split this string and save it to dateTime where [0] is the date and [1] is the time.
                     var dateTime = data.list[i].dt_txt.split(' ');
     
                     //this is the data we want to add, anything with a date not today and with a time of noon
@@ -275,5 +269,4 @@ loadHistory();
 
 //event listener for when the user clicks the submit button in the form
 formEl.addEventListener("submit", formSubmitHandler);
-
 historyEl.addEventListener("click", historyClickHandler);
