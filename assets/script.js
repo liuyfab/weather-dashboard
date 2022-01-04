@@ -1,3 +1,7 @@
+//*********************** VARIABLES ********************** */
+
+//the OpenWeather api key used for this project
+var apiKey = "07b013a2cc611e90acf79572755f7c1f";
 
 //current weather stored in an object. 
 var currentWeather = {
@@ -13,12 +17,6 @@ var currentWeather = {
 
 //array used to store the forecast data.
 var forecast = [];
-
-//array for storing the previously searched cities.
-var searchHistory = [];
-
-//the OpenWeather api key used for this project
-var apiKey = "07b013a2cc611e90acf79572755f7c1f";
 
 //querySelectors for various page elements I will need to reference in the sccript.
 var cityNameEl = document.querySelector("#name");
@@ -37,7 +35,7 @@ var resultsContEl = document.querySelector("#results-container");
 var forecastContEl = document.querySelector("#forecast-container");
 var curStatsEl = document.querySelector("#current-stats");
 
-
+//*********************** FUNCTIONS  ********************** */
 
 //getWeather is the function that makes the api calls to OpenWeather. 
 
@@ -66,7 +64,18 @@ var getWeather = function (city){
                         uvResponse.json().then(function(uvData) {
                             //console.log(uvData);
                             currentWeather.uv = uvData.value;
-                            displayWeather();
+                            console.log("Current Weather data ", currentWeather); 
+                            //displayWeather();
+                            curStatsEl.style.display = "block";
+                            forecastContEl.style.display = "block";
+                            cityNameEl.innerHTML = currentWeather.name;
+                            curDateEl.innerHTML = currentWeather.date;
+                            curTempEl.innerHTML = currentWeather.temp;
+                            curHumidityEl.innerHTML = currentWeather.humidity;
+                            curWindEl.innerHTML = currentWeather.wind;
+                            curUvEl.innerHTML = currentWeather.uv;
+                            curIconEl.innerHTML = "<img src='https://openweathermap.org/img/wn/" + currentWeather.icon + "@2x.png'></img>";
+                            uvCheck();                        
                             getForecast(city);
                         });
                     }
@@ -133,49 +142,6 @@ var getForecast = function (city) {
     })
 }
 
-//displayForecast takes the data from the forecast array and creates individual cards for each day. Those cards are then 
-//displayed within the 5-day forecast container on the page.
-var displayForecast = function () {
-    //console.log("inside displayForecast");
-    for (var i=0; i<forecast.length; i++) {
-        var cardContainerEl = document.createElement("div");
-        cardContainerEl.classList.add("col-xl");
-        cardContainerEl.classList.add("col-md-4");
-
-        var cardEl = document.createElement("div");
-        cardEl.classList.add("card");
-        cardEl.classList.add("forecast-card");
-
-        var cardBodyEl = document.createElement("div");
-        cardBodyEl.classList.add("card-body");
-
-        var dateEl = document.createElement("h5");
-        dateEl.classList.add("card-title");
-        dateEl.innerHTML = forecast[i].date;
-        cardBodyEl.appendChild(dateEl);
-
-        var iconEl = document.createElement("p");
-        iconEl.classList.add("card-text");
-        iconEl.innerHTML = "<img src='https://openweathermap.org/img/wn/" + forecast[i].icon + "@2x.png'></img>";
-        cardBodyEl.appendChild(iconEl);
-
-        var tempEl = document.createElement("p");
-        tempEl.classList.add("card-text");
-        tempEl.innerHTML = "Temp: " + forecast[i].temp;
-        cardBodyEl.appendChild(tempEl);
-
-        var humidityEl = document.createElement("p");
-        humidityEl.classList.add("card-text");
-        humidityEl.innerHTML = "Humidity: " + forecast[i].humidity
-        cardBodyEl.appendChild(humidityEl);
-
-        cardEl.appendChild(cardBodyEl);
-        cardContainerEl.appendChild(cardEl);
-        forecastEl.appendChild(cardContainerEl);
-
-    }
-}
-
 //displays the information that has been collected from the api calls onto the page.
 var displayWeather = function() {
     curStatsEl.style.display = "block";
@@ -228,9 +194,13 @@ var formSubmitHandler = function(event) {
     //console.log ("Search City: " + searchCity);
     if (searchCity) {
         getWeather(searchCity);
-        searchHistory.push(searchCity);
-        localStorage.removeItem("history");
-        localStorage.setItem("history", JSON.stringify(searchHistory));
+        console.log("index of ", searchHistory.indexOf(searchCity)); 
+        //Check for dulpicate values,  don't add if duplicate 
+        if(searchHistory.indexOf(searchCity) == -1){
+            searchHistory.push(searchCity);
+            localStorage.removeItem("history");
+            localStorage.setItem("history", JSON.stringify(searchHistory));
+        }
         clearForecast();
         displayHistory();
         searchInputEl.value = "";
@@ -263,6 +233,51 @@ var clearData = function () {
     curDateEl.innerHTML = "";
     curIconEl.innerHTML = "";
 }
+
+//displayForecast takes the data from the forecast array and creates individual cards for each day. Those cards are then 
+//displayed within the 5-day forecast container on the page.
+var displayForecast = function () {
+    //console.log("inside displayForecast");
+    for (var i=0; i<forecast.length; i++) {
+        var cardContainerEl = document.createElement("div");
+        cardContainerEl.classList.add("col-xl");
+        cardContainerEl.classList.add("col-md-4");
+
+        var cardEl = document.createElement("div");
+        cardEl.classList.add("card");
+        cardEl.classList.add("forecast-card");
+
+        var cardBodyEl = document.createElement("div");
+        cardBodyEl.classList.add("card-body");
+
+        var dateEl = document.createElement("h5");
+        dateEl.classList.add("card-title");
+        dateEl.innerHTML = forecast[i].date;
+        cardBodyEl.appendChild(dateEl);
+
+        var iconEl = document.createElement("p");
+        iconEl.classList.add("card-text");
+        iconEl.innerHTML = "<img src='https://openweathermap.org/img/wn/" + forecast[i].icon + "@2x.png'></img>";
+        cardBodyEl.appendChild(iconEl);
+
+        var tempEl = document.createElement("p");
+        tempEl.classList.add("card-text");
+        tempEl.innerHTML = "Temp: " + forecast[i].temp;
+        cardBodyEl.appendChild(tempEl);
+
+        var humidityEl = document.createElement("p");
+        humidityEl.classList.add("card-text");
+        humidityEl.innerHTML = "Humidity: " + forecast[i].humidity
+        cardBodyEl.appendChild(humidityEl);
+
+        cardEl.appendChild(cardBodyEl);
+        cardContainerEl.appendChild(cardEl);
+        forecastEl.appendChild(cardContainerEl);
+
+    }
+}
+
+//*********************** EVENT HANDLERS  ********************** */
 
 //console.log(currentWeather);
 loadHistory();
