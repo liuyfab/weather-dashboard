@@ -201,7 +201,6 @@ var formSubmitHandler = function(event) {
             localStorage.removeItem("history");
             localStorage.setItem("history", JSON.stringify(searchHistory));
         }
-        clearForecast();
         displayHistory();
         searchInputEl.value = "";
     }
